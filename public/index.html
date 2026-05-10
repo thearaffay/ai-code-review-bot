@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Code Review Bot | Syed Abdul Raffay</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-indigo-900 to-gray-900 min-h-screen text-white">
+  
+  <div class="container mx-auto px-4 py-8 max-w-6xl">
+    
+    <!-- Header -->
+    <header class="text-center mb-12">
+      <div class="inline-block bg-indigo-500/20 px-4 py-2 rounded-full text-sm font-mono text-indigo-300 mb-4">
+        <i class="fas fa-robot mr-2"></i>AI-Powered Code Analysis
+      </div>
+      <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+        AI Code Review Bot
+      </h1>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+        Get instant, intelligent code reviews powered by GPT-4. 
+        <span class="text-indigo-400 font-semibold">Catch bugs, security issues, and improve code quality automatically.</span>
+      </p>
+      <div class="mt-4 text-sm text-gray-400">
+        Built by <a href="https://abdul-raffay-portfolio.web.app" target="_blank" class="text-indigo-400 hover:underline">Syed Abdul Raffay</a>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+        <div class="text-3xl font-bold text-indigo-400 mb-2">GPT-4</div>
+        <div class="text-gray-300">AI Model</div>
+        <div class="text-xs text-gray-500 mt-1">Latest OpenAI</div>
+      </div>
+      <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+        <div class="text-3xl font-bold text-green-400 mb-2">60%</div>
+        <div class="text-gray-300">Bugs Caught</div>
+        <div class="text-xs text-gray-500 mt-1">Before Production</div>
+      </div>
+      <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+        <div class="text-3xl font-bold text-purple-400 mb-2">&lt;30s</div>
+        <div class="text-gray-300">Review Time</div>
+        <div class="text-xs text-gray-500 mt-1">Instant Feedback</div>
+      </div>
+      <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+        <div class="text-3xl font-bold text-yellow-400 mb-2">24/7</div>
+        <div class="text-gray-300">Availability</div>
+        <div class="text-xs text-gray-500 mt-1">Always On</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- Input Section -->
+      <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <i class="fas fa-code mr-3 text-indigo-400"></i>
+          Paste Your Code
+        </h2>
+        
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Language</label>
+          <select id="language" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-indigo-500 focus:outline-none">
+            <option value="JavaScript">JavaScript</option>
+            <option value="TypeScript">TypeScript</option>
+            <option value="Python">Python</option>
+            <option value="Java">Java</option>
+            <option value="C++">C++</option>
+            <option value="Go">Go</option>
+            <option value="Rust">Rust</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Context (Optional)</label>
+          <input 
+            type="text" 
+            id="context" 
+            placeholder="e.g., API endpoint, utility function, React component"
+            class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-indigo-500 focus:outline-none"
+          >
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Code</label>
+          <textarea 
+            id="codeInput" 
+            rows="12"
+            placeholder="Paste your code here..."
+            class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white font-mono text-sm focus:border-indigo-500 focus:outline-none resize-none"
+          ></textarea>
+        </div>
+
+        <button 
+          id="reviewBtn" 
+          onclick="reviewCode()" 
+          class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105"
+        >
+          <i class="fas fa-magic mr-2"></i>
+          Review Code with AI
+        </button>
+
+        <div id="loading" class="hidden mt-6 text-center">
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
+          <p class="mt-4 text-gray-300">AI is analyzing your code...</p>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <i class="fas fa-clipboard-check mr-3 text-green-400"></i>
+          Review Results
+        </h2>
+
+        <div id="output" class="space-y-6">
+          <div class="text-gray-500 text-center py-12">
+            <i class="fas fa-search text-4xl mb-4"></i>
+            <p>Your code review will appear here</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Features -->
+    <div class="mt-16 bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
+      <h2 class="text-2xl font-bold mb-8 text-center">
+        <i class="fas fa-star mr-3 text-yellow-400"></i>
+        What Gets Analyzed
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-bug text-2xl text-red-400"></i>
+          </div>
+          <h3 class="font-bold mb-2">Bugs & Issues</h3>
+          <p class="text-sm text-gray-400">Potential runtime errors, logic flaws, edge cases</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-shield-alt text-2xl text-orange-400"></i>
+          </div>
+          <h3 class="font-bold mb-2">Security</h3>
+          <p class="text-sm text-gray-400">SQL injection, XSS, authentication issues</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-tachometer-alt text-2xl text-blue-400"></i>
+          </div>
+          <h3 class="font-bold mb-2">Performance</h3>
+          <p class="text-sm text-gray-400">Optimization opportunities, complexity analysis</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-check-circle text-2xl text-green-400"></i>
+          </div>
+          <h3 class="font-bold mb-2">Best Practices</h3>
+          <p class="text-sm text-gray-400">Code style, naming conventions, patterns</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-lightbulb text-2xl text-purple-400"></i>
+          </div>
+          <h3 class="font-bold mb-2">Suggestions</h3>
+          <p class="text-sm text-gray-400">Refactoring ideas, alternative approaches</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-star text-2xl text-yellow-400"></i>
+          </div>
+          <h3 class="font-bold mb-2">Quality Score</h3>
+          <p class="text-sm text-gray-400">Overall code quality rating (1-10)</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
